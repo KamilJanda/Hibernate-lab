@@ -1,4 +1,6 @@
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Product {
@@ -15,6 +17,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "CATEGORY_FK")
     private Category categoryID;
+
+    @ManyToMany(mappedBy = "productsInOrder",cascade = CascadeType.PERSIST)
+    private Set<Invoice> invoices = new HashSet<>();
 
     public Product() {
     }
@@ -52,9 +57,11 @@ public class Product {
         return categoryID;
     }
 
-    public void setCategoryID(Category categoryID) {
+    void setCategoryID(Category categoryID) {
         this.categoryID = categoryID;
-        this.categoryID.getProducts().add(this);
+        if (!this.categoryID.getProducts().contains(this)) {
+            this.categoryID.getProducts().add(this);
+        }
     }
 
     public Supplier getSupplierID() {
@@ -66,5 +73,11 @@ public class Product {
         this.supplierID.getProducts().add(this);
     }
 
+    public Set<Invoice> getInvoices() {
+        return invoices;
+    }
 
+    public void addToInvoice(Invoice invoice,int quantity) {
+        invoice.addProduct(this,quantity);
+    }
 }

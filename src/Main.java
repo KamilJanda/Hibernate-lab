@@ -28,6 +28,8 @@ public class Main {
 
 
 
+
+
     private static List<Product> getProductsFromCategory(String categoryName) {
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();

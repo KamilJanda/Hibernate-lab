@@ -1,12 +1,9 @@
 import org.hibernate.*;
-import org.hibernate.query.Query;
 import org.hibernate.cfg.Configuration;
 
 import javax.persistence.*;
-import javax.persistence.metamodel.EntityType;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -20,27 +17,15 @@ public class Main {
         entityManager = entityManagerFactory.createEntityManager();
 
         createData();
-
-        System.out.println("\nProducts from category \'category 1\'");
-
-        List<Product> pr = getProductsFromCategory("category 1");
-
-        pr.forEach(product -> System.out.println(product.getProductName()));
-
-        System.out.println("Category name of super cool product: " + getCategoryOfProduct("super cool product").getName());
-
-//        System.out.println("\nProducts from invoice number 9");
-//
-//        getProductsFromInvoice(9).forEach(product -> System.out.println(product.getProductName()));
-
+        
         entityManager.close();
     }
 
-    private static void sellProduct(){
+    private static void sellProduct() {
 
     }
 
-    private static List<Product> getProductsFromCategory(String categoryName){
+    private static List<Product> getProductsFromCategory(String categoryName) {
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
 
@@ -54,7 +39,7 @@ public class Main {
         return category.getProducts();
     }
 
-    private static Category getCategoryOfProduct(String productName){
+    private static Category getCategoryOfProduct(String productName) {
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
 
@@ -68,12 +53,12 @@ public class Main {
         return product.getCategoryID();
     }
 
-    private static Set<Product> getProductsFromInvoice(int invoiceNumber){
+    private static Set<Product> getProductsFromInvoice(int invoiceNumber) {
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
 
         Invoice invoice = entityManager.createQuery("from Invoice where InvoiceNumber=:invoiceNumber", Invoice.class)
-                .setParameter("invoiceNumber",invoiceNumber)
+                .setParameter("invoiceNumber", invoiceNumber)
                 .getSingleResult();
 
         entityTransaction.commit();
@@ -81,13 +66,22 @@ public class Main {
     }
 
 
-
-    private static void createData(){
+    private static void createData() {
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         entityTransaction.begin();
 
-        Supplier sup = new Supplier("Some Company", "Wall Street", "New York");
+        Supplier sup = new Supplier("Some Company",
+                "Main st.",
+                "New York",
+                "zipcode",
+                "123456");
+
+        Customer customer = new Customer("some customer",
+                "wall st.",
+                "NY",
+                "zip code 1",
+                10);
 
         Product prod1 = new Product("budmax", 20);
         Product prod2 = new Product("Super product", 40);
@@ -128,6 +122,8 @@ public class Main {
         entityManager.persist(cat3);
 
         entityManager.persist(sup);
+
+        entityManager.persist(customer);
 
         entityManager.persist(inv1);
         entityManager.persist(inv2);

@@ -5,6 +5,7 @@ import java.util.Set;
 
 
 @Entity
+@Table(name = "ORDERS")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,7 +14,7 @@ public class Order {
     @ManyToOne
     private Customer customer;
 
-    @ManyToMany
+    @OneToMany
     private Set<Product> products = new HashSet<>();
 
     public Order() {
@@ -37,5 +38,6 @@ public class Order {
 
     public void addProduct(Product product) {
         this.products.add(product);
+//        product.getOrders().add(this);
     }
 }

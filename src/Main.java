@@ -14,7 +14,7 @@ public class Main {
     private static SessionFactory sessionFactory = null;
 
     private static EntityManager entityManager;
-    
+
 
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myDatabaseConfig");
@@ -142,6 +142,7 @@ public class Main {
         entityManager.persist(inv2);
 
         entityTransaction.commit();
+        
     }
 
     private static SessionFactory getSessionFactory() {

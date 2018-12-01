@@ -18,8 +18,11 @@ public class Product {
     @JoinColumn(name = "CATEGORY_FK")
     private Category categoryID;
 
-    @ManyToMany(mappedBy = "productsInOrder",cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "productsInOrder", cascade = CascadeType.PERSIST)
     private Set<Invoice> invoices = new HashSet<>();
+
+//    @ManyToMany(mappedBy = "products")
+//    private Set<Order> orders = new HashSet<>();
 
     public Product() {
     }
@@ -77,7 +80,21 @@ public class Product {
         return invoices;
     }
 
-    public void addToInvoice(Invoice invoice,int quantity) {
-        invoice.addProduct(this,quantity);
+    public void addToInvoice(Invoice invoice, int quantity) {
+        invoice.addProduct(this, quantity);
+    }
+
+//    public Set<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void addOrder(Order order) {
+//        this.orders.add(order);
+//        order.getProducts().add(this);
+//    }
+
+    @Override
+    public String toString() {
+        return this.getProductName();
     }
 }

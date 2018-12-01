@@ -1,11 +1,12 @@
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Company {
 
     @Id
     private String companyName;
+
     private String street;
     private String city;
     private String zipCode;
@@ -42,5 +43,20 @@ public abstract class Company {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    @Override
+    public String toString() {
+        return "Company name: " +
+                this.companyName +
+                ", address: " +
+                this.city +
+                " " + this.street +
+                ", zip code: " +
+                this.zipCode;
     }
 }

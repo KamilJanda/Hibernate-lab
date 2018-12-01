@@ -1,11 +1,13 @@
 import javax.persistence.Entity;
 
 @Entity
-public class Customer extends Company{
+public class Customer extends Company {
+
 
     private int discount;
 
     public Customer() {
+        super();
     }
 
     public Customer(String companyName, String street, String city, String zipCode, int discount) {
@@ -20,4 +22,6 @@ public class Customer extends Company{
     public void setDiscount(int discount) {
         this.discount = discount;
     }
+
+
 }

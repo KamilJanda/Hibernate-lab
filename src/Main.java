@@ -1,10 +1,13 @@
+import com.sun.tools.corba.se.idl.constExpr.Or;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
 import javax.persistence.*;
 
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.function.Consumer;
 
 
 public class Main {
@@ -15,15 +18,15 @@ public class Main {
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myDatabaseConfig");
         entityManager = entityManagerFactory.createEntityManager();
-
         createData();
-        
+
+        OrderMenu orderMenu = new OrderMenu(entityManager);
+        orderMenu.display();
+
         entityManager.close();
     }
 
-    private static void sellProduct() {
 
-    }
 
     private static List<Product> getProductsFromCategory(String categoryName) {
         EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -71,19 +74,18 @@ public class Main {
 
         entityTransaction.begin();
 
-        Supplier sup = new Supplier("Some Company",
+        Supplier sup = new Supplier("supplier super company",
                 "Main st.",
                 "New York",
                 "zipcode",
                 "123456");
 
-        Customer customer = new Customer("some customer",
-                "wall st.",
-                "NY",
-                "zip code 1",
-                10);
+        Customer customer = new Customer("some customer1", "wall st.", "NY", "zip code 1", 10);
+        Customer customer1 = new Customer("super customer1", "main st.", "NY", "zip code 1", 0);
+        Customer customer2 = new Customer("bad customer1", "some st.", "Warsaw", "zip code 4", 20);
 
-        Product prod1 = new Product("budmax", 20);
+
+        Product prod1 = new Product("random product", 20);
         Product prod2 = new Product("Super product", 40);
         Product prod3 = new Product("bad product", 10);
         Product prod4 = new Product("super cool product", 40);
@@ -117,6 +119,12 @@ public class Main {
 //        entityManager.persist(prod3);
 //        entityManager.persist(prod4);
 
+//        Order order = new Order();
+//        order.setCustomer(customer);
+//        order.addProduct(prod1);
+//
+//        entityManager.persist(order);
+
         entityManager.persist(cat1);
         entityManager.persist(cat2);
         entityManager.persist(cat3);
@@ -124,6 +132,8 @@ public class Main {
         entityManager.persist(sup);
 
         entityManager.persist(customer);
+        entityManager.persist(customer1);
+        entityManager.persist(customer2);
 
         entityManager.persist(inv1);
         entityManager.persist(inv2);
